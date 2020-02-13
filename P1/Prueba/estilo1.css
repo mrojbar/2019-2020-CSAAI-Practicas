@@ -1,20 +1,22 @@
 @font-face{
-font-family:titulo;
-src: url(Rithem.ttf)
+font-family:'titulo';
+src: url('shamery.ttf') format('truetype');
 }
+
 body{
 background-color: rgba(22, 192, 128, 1)
 ;
 color:white;
 /*font-weight:bold;*/
 }
+
 h1{
 border-style: dotted;
 border-width: 3px;
 border-color: rgba(53, 108, 230, 0.5);
 
 background-color: rgba(0, 148, 158, 0.6);
-font-family:"titulo", sans-serif;
+font-family:'titulo';
 
 color:white;
 font-size: 450%;
