@@ -71,6 +71,10 @@ h2 {
   font-size: 150%;
 }
 
+h3 {
+  font-size: 130%;
+}
+
 /* Lista sin puntos en el menu*/
 #nopuntos {
   list-style-type: none;
