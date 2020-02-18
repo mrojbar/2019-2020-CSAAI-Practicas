@@ -1,35 +1,35 @@
 @font-face{
-font-family:'cuerpo';
-src: url('shamery.ttf') format('truetype');
-font-weight: 800;
-}
-@font-face{
 font-family:'titulo';
-src: url('Romanica.ttf') format('truetype');
+src: url('shamery.ttf') format('truetype');
 }
+
 body{
-background-image: url(tenor.gif);
-font-family:'cuerpo';
+background-color: rgba(22, 192, 128, 1)
+;
 color:white;
 /*font-weight:bold;*/
 }
 
 h1{
+border-style: dotted;
+border-width: 3px;
+border-color: rgba(53, 108, 230, 0.5);
+
+background-color: rgba(0, 148, 158, 0.6);
 font-family:'titulo';
 
 color:white;
 font-size: 450%;
 font-weight: 450;
-line-height: 50%;
-margin: 0 1 40px;
+line-height: 100%;
+margin: 0 1 90px;
 text-align: center;
-text-shadow: 3px 3px 50px rgba(0,0,0,0.8);
+text-shadow: 3px 3px 20px rgba(0,0,0,0.2);
 }
-
 h2 {
 color:white;
+background-color: rgba(0, 148, 158, 0.6);
 font-family:"titulo", sans-serif;
-text-shadow: 3px 3px 30px rgba(0,0,0,0.7);
 font-size: 250%;
 font-weight: 400;
 line-height: 32px;
