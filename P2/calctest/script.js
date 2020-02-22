@@ -40,6 +40,8 @@ boton8.onclick = function () {escribeBoton(8)};
 boton9.onclick = function () {escribeBoton(9)};
 
 pantallaLista = []; //array de objetos en pantalla
+numarray = []; //array temporal para los numeros de entrada
+memoria = []; //lista de objetos a calcular
 memFinal = "";
 resultado = 0; //ultimo resultado
 flagResultado = false; //se pone a true cuando acabamos de obtener solucion
@@ -47,6 +49,8 @@ flagResultado = false; //se pone a true cuando acabamos de obtener solucion
 function resetTotal(){
   pantallaLista = [];
   resetValor(0);
+  numarray = [];
+  memoria = [];
   memFinal = "";
   resultado = 0;
   flagResultado = false;
@@ -60,7 +64,8 @@ function parseError(){
   resetValor(0);
   pantalla.innerHTML = ERROR;
   pantallaLista = [];
-  memFinal = "";
+  numarray = [];
+  memoria = [];
 }
 
 function actualizaUltPantalla(){
@@ -107,23 +112,107 @@ function escribeBoton (objeto){
   }
 }
 
-//funcion de output de la calculadora
-function calcularSol (){
-  if (memFinal != "" && isNaN(pantallaLista[0])) {//si hay una solucion anterior: añadir
-    pantallaLista.unshift(memFinal);
-    }
-  memFinal = pantallaLista.toString().replace(/,/g, "");
+//ejecuta el calculo si parse correcto
+function calcular (){
+  if(parsePantalla()) solucion();
+  else parseError();
+}
 
-  try {
-    resultado = Number((eval(memFinal)).toFixed(9))
-    }
-  catch {
-    parseError();
-    return;
-    }
+//calcula la solucion de lo que haya en memoria
+function solucion (){
+  memFinal = memoria.toString().replace(/,/g, "");
+  resultado = Number((eval(memFinal)).toFixed(9));
   flagResultado = true;
-  console.log(resultado);//log en consola
+  console.log(resultado);//log solucion en consola
   resetValor(0);
   actualizaUltPantalla();
-  memFinal = resultado;
+}
+
+function calcularSol (){
+  memFinal = pantallaLista.toString().replace(/,/g, "");
+  try {
+    resultado = Number((eval(memFinal)).toFixed(9))
+    console.log(resultado);
+  }
+  catch {
+    console.log("error");
+  }
+}
+
+//funcion de parsing de caracteres de entrada (guarda en variable memoria) y control de errores
+//devuelve false si error, true si correcto.
+function parsePantalla (){
+  //reseteo de las memorias
+  numarray = [];
+  memoria = [];
+  longPLista = pantallaLista.length;//guardado de longitud de pantallaLista
+  longPListaMen = longPLista-1;
+
+  //recorrido del array pantalla.
+  for (var i = 0; i < longPLista; i++) {
+
+    if(i == longPListaMen){//si el caracter es el ultimo del array...
+      if (!isNaN(pantallaLista[i])) {//si es un numero guardar numarray en memoria como float
+        numarray.push(pantallaLista[i]);
+        memoria.push(parseFloat((numarray.toString()).replace(/,/g, "")));
+        numarray = [];
+        continue;
+      }
+      else
+        return false;
+    }
+
+    if(i == 0){//si el caracter es el primero del array...
+      if (isNaN(pantallaLista[0]) && pantallaLista[0] != ".") {//si es un simbolo...
+        if (memFinal != "") {//si hay una solucion anterior: añadir
+          memoria.push(resultado);
+          //y meter simbolo en memoria
+          memoria.push(pantallaLista[0]);
+          continue;
+        }
+        else if (pantallaLista[i]=="-"){//si el primer simbolo es -
+          memoria.push(pantallaLista[0]);//mete solo el - en memoria
+          continue;
+        }
+        return false; // si no: error
+      }
+    }
+
+    if(!isNaN(pantallaLista[i]) || pantallaLista[i]=="."){//si el caracter es un numero o punto...
+      if(i>0){
+        if (pantallaLista[i] == "." && pantallaLista[i-1] == ".") {//si tenemos 2 puntos seguidos: error
+          return false;
+        }
+      }
+
+      //meter numero o punto en memoria temporal
+      numarray.push(pantallaLista[i]);
+    }
+    else{//si el caracter es un simbolo...
+      if(i>0){
+        if (isNaN(pantallaLista[i-1]) && pantallaLista[i] != "-") {//si tenemos un simbolo (no -) no precedido por numero: error
+          return false;
+        }
+        else if (pantallaLista[i] == "-" && pantallaLista[i-1] != "-"  && isNaN(pantallaLista[i-1]) && !isNaN(pantallaLista[i-2]) && i>1) { //tenemos un - precedido por un simbolo precedido por numero: correcto
+          memoria.push(pantallaLista[i]);//mete solo el - en memoria
+          continue;
+        }
+        else if (pantallaLista[i] == "-" && pantallaLista[i-1] == "-"){
+          return false;
+        }
+      }
+
+      //guardar el numero numarray en memoria como float
+      memoria.push(parseFloat((numarray.toString()).replace(/,/g, "")));
+      numarray = [];
+
+      //meter simbolo en memoria
+      memoria.push(pantallaLista[i]);
+    }
+  }
+  //log de datos de la memoria.
+  for (var i = 0; i < memoria.length; i++) {
+  console.log("dato "+ i +": " + memoria[i]);
+  }
+  return true;
 }
