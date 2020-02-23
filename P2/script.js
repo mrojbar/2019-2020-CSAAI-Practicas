@@ -6,6 +6,8 @@ const botonMult = document.getElementById('botonMult')
 const botonDiv = document.getElementById('botonDiv')
 const botonIgual = document.getElementById('botonIgual')
 const botonClear = document.getElementById('botonClear')
+const botonParent1 = document.getElementById('botonParent1')
+const botonParent2 = document.getElementById('botonParent2')
 const boton1 = document.getElementById('boton1')
 const boton2 = document.getElementById('boton2')
 const boton3 = document.getElementById('boton3')
@@ -17,18 +19,22 @@ const boton8 = document.getElementById('boton8')
 const boton9 = document.getElementById('boton9')
 const botonPunto = document.getElementById('botonPunto')
 const botonBorrar = document.getElementById('botonBorrar')
+const botonAns = document.getElementById('botonAns')
 
 const ERROR = "ERROR DE SINTAXIS"
 
 //-----TECLAS
 botonBorrar.onclick = function () {borraUltValor()};
-botonClear.onclick = function () {resetTotal(0)};
+botonClear.onclick = function () {resetTotal()};
+botonAns.onclick = function () {escribeAns()};
 botonIgual.onclick = function () {calcularSol()};
 botonSuma.onclick = function () {escribeBoton("+")};
 botonResta.onclick = function () {escribeBoton("-")};
 botonMult.onclick = function () {escribeBoton("*")};
 botonDiv.onclick = function () {escribeBoton("/")};
 botonPunto.onclick = function () {escribeBoton(".")};
+botonParent1.onclick = function () {escribeBoton("(")};
+botonParent2.onclick = function () {escribeBoton(")")};
 boton1.onclick = function () {escribeBoton(1)};
 boton2.onclick = function () {escribeBoton(2)};
 boton3.onclick = function () {escribeBoton(3)};
@@ -44,6 +50,7 @@ memFinal = "";
 resultado = 0; //ultimo resultado
 flagResultado = false; //se pone a true cuando acabamos de obtener solucion
 
+// funcion clear/reset
 function resetTotal(){
   pantallaLista = [];
   resetValor(0);
@@ -63,14 +70,35 @@ function parseError(){
   memFinal = "";
 }
 
-function actualizaUltPantalla(){
-  pantallaSol.innerHTML = memFinal + " = " + resultado;
+//-----FUNCIONES ARRAY PANTALLA
+
+//coloca el ultimo resultado en la entrada.
+function escribeAns(){
+  if(resultado == "NaN" || resultado == "Infinity"){//ans no validas
+    return;
+    }
+  if (memFinal != ""){
+    arrayResultado = resultado.toString(10).split('');
+      if((arrayResultado.length + pantallaLista.length) > 30){//si la pantalla se llena
+        arrayResultado = [];
+        return;
+      }
+      else if (pantallaLista.length == 1 && pantallaLista[0]==0){//sustituir la pantalla a 0 por vacia
+        pantallaLista.shift();
+      }
+    pantallaLista = pantallaLista.concat(arrayResultado);//concatenar pantalla con ans
+    actualizaPantalla();
+  }
 }
 
-//-----FUNCIONES ARRAY PANTALLA
 //conversion del array y escritura en html
 function actualizaPantalla(){
   pantalla.innerHTML = (pantallaLista.toString()).replace(/,/g, "");
+}
+
+//escritura pantalla de resultados
+function actualizaUltPantalla(){
+  pantallaSol.innerHTML = memFinal + " = " + resultado;
 }
 
 //reset del array a valor dado y borrado de ultimo resultado
@@ -109,7 +137,7 @@ function escribeBoton (objeto){
 
 //funcion de output de la calculadora
 function calcularSol (){
-  if (memFinal != "" && isNaN(pantallaLista[0])) {//si hay una solucion anterior: añadir
+  if (memFinal != "" && isNaN(pantallaLista[0]) && resultado != "NaN" && resultado != "Infinity") {//si hay una solucion anterior y tenemos simbolo nuevo: añadir
     pantallaLista.unshift(memFinal);
     }
   memFinal = pantallaLista.toString().replace(/,/g, "");
@@ -117,7 +145,8 @@ function calcularSol (){
   try {
     resultado = Number((eval(memFinal)).toFixed(9))
     }
-  catch {
+  catch (evalError){
+    console.log(evalError);
     parseError();
     return;
     }
