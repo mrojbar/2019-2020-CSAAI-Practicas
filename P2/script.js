@@ -69,7 +69,6 @@ function resetTotal(){
 function parseError(){
   resetValor(0);
   pantalla.innerHTML = ERROR;
-  pantallaLista = [];
 }
 
 //-----FUNCIONES ARRAY PANTALLA
