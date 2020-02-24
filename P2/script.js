@@ -51,14 +51,14 @@ boton8.onclick = function () {escribeBoton(8)};
 boton9.onclick = function () {escribeBoton(9)};
 
 pantallaLista = []; //array de objetos en pantalla
-memFinal = "";
+operacion = ""; //cadena que contiene la operacion
 resultado = 0; //ultimo resultado
 
 // funcion clear/reset
 function resetTotal(){
   pantallaLista = [];
   resetValor(0);
-  memFinal = "";
+  operacion = "";
   resultado = 0;
 
   pantalla.innerHTML = 0;
@@ -75,7 +75,7 @@ function parseError(){
 
 //coloca el ultimo resultado en la entrada.
 function escribeAns(){
-  if(isNaN(resultado) || resultado == Infinity || memFinal == ""){//ans no validas
+  if(isNaN(resultado) || resultado == Infinity || operacion == ""){//ans no validas
     return;
   }
   arrayResultado = resultado.toString(10).split('');
@@ -96,7 +96,7 @@ function actualizaPantalla(){
 
 //escritura pantalla de resultados
 function actualizaUltPantalla(){
-  pantallaSol.innerHTML = memFinal + " = " + resultado;
+  pantallaSol.innerHTML = operacion + " = " + resultado;
 }
 
 //reset del array a valor dado y borrado de ultimo resultado
@@ -135,13 +135,13 @@ function escribeBoton (objeto){
 
 //funcion de output de la calculadora
 function calcularSol (){
-  if (memFinal != "" && isNaN(pantallaLista[0]) && !isNaN(resultado) && resultado != Infinity) {//si hay una solucion anterior y tenemos simbolo nuevo: añadir
-    pantallaLista.unshift(memFinal);
+  if (operacion != "" && isNaN(pantallaLista[0]) && !isNaN(resultado) && resultado != Infinity) {//si hay una solucion anterior y tenemos simbolo nuevo: añadir
+    pantallaLista.unshift(resultado);
     }
-  memFinal = pantallaLista.toString().replace(/,/g, "");
+  operacion = pantallaLista.toString().replace(/,/g, "");
 
   try {
-    resultado = Number((eval(memFinal)).toFixed(9))
+    resultado = Number((eval(operacion)).toFixed(9))
     }
   catch (evalError){
     console.log(evalError);
@@ -152,5 +152,5 @@ function calcularSol (){
   console.log(resultado);//log en consola
   resetValor(0);
   actualizaUltPantalla();
-  memFinal = resultado;
+  operacion = resultado;
 }
