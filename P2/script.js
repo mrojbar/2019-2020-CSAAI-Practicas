@@ -8,6 +8,7 @@ const botonIgual = document.getElementById('botonIgual')
 const botonClear = document.getElementById('botonClear')
 const botonParent1 = document.getElementById('botonParent1')
 const botonParent2 = document.getElementById('botonParent2')
+const boton0 = document.getElementById('boton0')
 const boton1 = document.getElementById('boton1')
 const boton2 = document.getElementById('boton2')
 const boton3 = document.getElementById('boton3')
@@ -20,6 +21,7 @@ const boton9 = document.getElementById('boton9')
 const botonPunto = document.getElementById('botonPunto')
 const botonBorrar = document.getElementById('botonBorrar')
 const botonAns = document.getElementById('botonAns')
+const botonExp = document.getElementById('botonExp')
 
 const ERROR = "ERROR DE SINTAXIS"
 
@@ -35,6 +37,9 @@ botonDiv.onclick = function () {escribeBoton("/")};
 botonPunto.onclick = function () {escribeBoton(".")};
 botonParent1.onclick = function () {escribeBoton("(")};
 botonParent2.onclick = function () {escribeBoton(")")};
+botonExp.onclick = function () {escribeBoton("e+")};
+
+boton0.onclick = function () {escribeBoton(0)};
 boton1.onclick = function () {escribeBoton(1)};
 boton2.onclick = function () {escribeBoton(2)};
 boton3.onclick = function () {escribeBoton(3)};
@@ -48,7 +53,6 @@ boton9.onclick = function () {escribeBoton(9)};
 pantallaLista = []; //array de objetos en pantalla
 memFinal = "";
 resultado = 0; //ultimo resultado
-flagResultado = false; //se pone a true cuando acabamos de obtener solucion
 
 // funcion clear/reset
 function resetTotal(){
@@ -56,7 +60,6 @@ function resetTotal(){
   resetValor(0);
   memFinal = "";
   resultado = 0;
-  flagResultado = false;
 
   pantalla.innerHTML = 0;
   pantallaSol.innerHTML = "_"
@@ -74,7 +77,7 @@ function parseError(){
 
 //coloca el ultimo resultado en la entrada.
 function escribeAns(){
-  if(resultado == "NaN" || resultado == "Infinity"){//ans no validas
+  if(isNaN(resultado) || resultado == Infinity){//ans no validas
     return;
     }
   if (memFinal != ""){
@@ -137,7 +140,7 @@ function escribeBoton (objeto){
 
 //funcion de output de la calculadora
 function calcularSol (){
-  if (memFinal != "" && isNaN(pantallaLista[0]) && resultado != "NaN" && resultado != "Infinity") {//si hay una solucion anterior y tenemos simbolo nuevo: añadir
+  if (memFinal != "" && isNaN(pantallaLista[0]) && !isNaN(resultado) && resultado != Infinity) {//si hay una solucion anterior y tenemos simbolo nuevo: añadir
     pantallaLista.unshift(memFinal);
     }
   memFinal = pantallaLista.toString().replace(/,/g, "");
@@ -150,7 +153,7 @@ function calcularSol (){
     parseError();
     return;
     }
-  flagResultado = true;
+
   console.log(resultado);//log en consola
   resetValor(0);
   actualizaUltPantalla();
