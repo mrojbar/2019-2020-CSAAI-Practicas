@@ -70,28 +70,24 @@ function parseError(){
   resetValor(0);
   pantalla.innerHTML = ERROR;
   pantallaLista = [];
-  memFinal = "";
 }
 
 //-----FUNCIONES ARRAY PANTALLA
 
 //coloca el ultimo resultado en la entrada.
 function escribeAns(){
-  if(isNaN(resultado) || resultado == Infinity){//ans no validas
+  if(isNaN(resultado) || resultado == Infinity || memFinal == ""){//ans no validas
     return;
-    }
-  if (memFinal != ""){
-    arrayResultado = resultado.toString(10).split('');
-      if((arrayResultado.length + pantallaLista.length) > 30){//si la pantalla se llena
-        arrayResultado = [];
-        return;
-      }
-      else if (pantallaLista.length == 1 && pantallaLista[0]==0){//sustituir la pantalla a 0 por vacia
-        pantallaLista.shift();
-      }
-    pantallaLista = pantallaLista.concat(arrayResultado);//concatenar pantalla con ans
-    actualizaPantalla();
   }
+  arrayResultado = resultado.toString(10).split('');
+    if((arrayResultado.length + pantallaLista.length) > 30){//si la pantalla se llena
+      return;
+    }
+    else if (pantallaLista.length == 1 && pantallaLista[0]==0){//sustituir la pantalla a 0 por vacia
+      pantallaLista.shift();
+    }
+  pantallaLista = pantallaLista.concat(arrayResultado);//concatenar pantalla con ans
+  actualizaPantalla();
 }
 
 //conversion del array y escritura en html
