@@ -24,6 +24,7 @@ const botonAns = document.getElementById('botonAns')
 const botonExp = document.getElementById('botonExp')
 
 const ERROR = "ERROR DE SINTAXIS"
+const TAMPANTALLA = 30 //tamaño de pantalla
 
 //-----TECLAS
 botonBorrar.onclick = function () {borraUltValor()};
@@ -50,9 +51,9 @@ boton7.onclick = function () {escribeBoton(7)};
 boton8.onclick = function () {escribeBoton(8)};
 boton9.onclick = function () {escribeBoton(9)};
 
-pantallaLista = []; //array de objetos en pantalla
-operacion = ""; //cadena que contiene la operacion
-resultado = 0; //ultimo resultado
+let pantallaLista = []; //array de objetos en pantalla
+let operacion = ""; //cadena que contiene la operacion
+let resultado = 0; //ultimo resultado
 
 // funcion clear/reset
 function resetTotal(){
@@ -79,7 +80,7 @@ function escribeAns(){
     return;
   }
   arrayResultado = resultado.toString(10).split('');
-    if((arrayResultado.length + pantallaLista.length) > 30){//si la pantalla se llena
+    if((arrayResultado.length + pantallaLista.length) > TAMPANTALLA){//si la pantalla se llena
       return;
     }
     else if (pantallaLista.length == 1 && pantallaLista[0]==0){//sustituir la pantalla a 0 por vacia
