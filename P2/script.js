@@ -1,157 +1,147 @@
-const pantalla = document.getElementById('pantalla')
-const pantallaSol = document.getElementById('pantallaSol')
-const botonSuma = document.getElementById('botonSuma')
-const botonResta = document.getElementById('botonResta')
-const botonMult = document.getElementById('botonMult')
-const botonDiv = document.getElementById('botonDiv')
-const botonIgual = document.getElementById('botonIgual')
-const botonClear = document.getElementById('botonClear')
-const botonParent1 = document.getElementById('botonParent1')
-const botonParent2 = document.getElementById('botonParent2')
-const boton0 = document.getElementById('boton0')
-const boton1 = document.getElementById('boton1')
-const boton2 = document.getElementById('boton2')
-const boton3 = document.getElementById('boton3')
-const boton4 = document.getElementById('boton4')
-const boton5 = document.getElementById('boton5')
-const boton6 = document.getElementById('boton6')
-const boton7 = document.getElementById('boton7')
-const boton8 = document.getElementById('boton8')
-const boton9 = document.getElementById('boton9')
-const botonPunto = document.getElementById('botonPunto')
-const botonBorrar = document.getElementById('botonBorrar')
-const botonAns = document.getElementById('botonAns')
-const botonExp = document.getElementById('botonExp')
+const teclas = {
 
-const ERROR = "ERROR DE SINTAXIS"
-const TAMPANTALLA = 30 //tamaño de pantalla
-
-//-----TECLAS
-botonBorrar.onclick = function () {borraUltValor()};
-botonClear.onclick = function () {resetTotal()};
-botonAns.onclick = function () {escribeAns()};
-botonIgual.onclick = function () {calcularSol()};
-botonSuma.onclick = function () {escribeBoton("+")};
-botonResta.onclick = function () {escribeBoton("-")};
-botonMult.onclick = function () {escribeBoton("*")};
-botonDiv.onclick = function () {escribeBoton("/")};
-botonPunto.onclick = function () {escribeBoton(".")};
-botonParent1.onclick = function () {escribeBoton("(")};
-botonParent2.onclick = function () {escribeBoton(")")};
-botonExp.onclick = function () {escribeBoton("e+")};
-
-boton0.onclick = function () {escribeBoton(0)};
-boton1.onclick = function () {escribeBoton(1)};
-boton2.onclick = function () {escribeBoton(2)};
-boton3.onclick = function () {escribeBoton(3)};
-boton4.onclick = function () {escribeBoton(4)};
-boton5.onclick = function () {escribeBoton(5)};
-boton6.onclick = function () {escribeBoton(6)};
-boton7.onclick = function () {escribeBoton(7)};
-boton8.onclick = function () {escribeBoton(8)};
-boton9.onclick = function () {escribeBoton(9)};
-
-let pantallaLista = []; //array de objetos en pantalla
-let operacion = ""; //cadena que contiene la operacion
-let resultado = 0; //ultimo resultado
-
-// funcion clear/reset
-function resetTotal(){
-  pantallaLista = [];
-  resetValor(0);
-  operacion = "";
-  resultado = 0;
-
-  pantalla.innerHTML = 0;
-  pantallaSol.innerHTML = "_"
+  botonSuma : document.getElementById('botonSuma'),
+  botonResta : document.getElementById('botonResta'),
+  botonMult : document.getElementById('botonMult'),
+  botonDiv : document.getElementById('botonDiv'),
+  botonIgual : document.getElementById('botonIgual'),
+  botonClear : document.getElementById('botonClear'),
+  botonParent1 : document.getElementById('botonParent1'),
+  botonParent2 : document.getElementById('botonParent2'),
+  botonNum : document.getElementsByClassName("botonNum"), //botones numericos
+  botonPunto : document.getElementById('botonPunto'),
+  botonBorrar : document.getElementById('botonBorrar'),
+  botonAns : document.getElementById('botonAns'),
+  botonExp : document.getElementById('botonExp'),
 }
 
-//error de sintaxis
-function parseError(){
-  resetValor(0);
-  pantalla.innerHTML = ERROR;
-}
+const interfaz = {
 
-//-----FUNCIONES ARRAY PANTALLA
+  pantalla: document.getElementById('pantalla'),
+  pantallaSol : document.getElementById('pantallaSol'),
+  ERROR : "ERROR DE SINTAXIS", //mensaje de error
+  TAMPANTALLA : 30, //tamaño de pantalla
+  pantallaLista : [], //array de objetos en pantalla
+  operacion : "", //cadena que contiene la operacion
+  resultado : 0, //ultimo this.resultado
 
-//coloca el ultimo resultado en la entrada.
-function escribeAns(){
-  if(isNaN(resultado) || resultado == Infinity || operacion == ""){//ans no validas
-    return;
-  }
-  arrayResultado = resultado.toString(10).split('');
-    if((arrayResultado.length + pantallaLista.length) > TAMPANTALLA){//si la pantalla se llena
-      return;
+  //error de sintaxis
+  parseError : function (){
+    this.resetValor(0);
+    this.pantalla.innerHTML = this.ERROR;
+  },
+
+  // funcion clear/reset
+  resetTotal : function (){
+    this.pantallaLista = [];
+    this.resetValor(0);
+    this.operacion = "";
+    this.resultado = 0;
+
+    this.pantalla.innerHTML = 0;
+    this.pantallaSol.innerHTML = "_"
+  },
+
+  //reset del array a valor dado y borrado de ultimo resultado
+  resetValor : function (valor){
+    this.pantallaLista = [];
+    this.pantallaLista.push(valor);
+    this.actualizaPantalla();
+  },
+
+  //funcion de input de la calculadora
+  escribeBoton : function (objeto){
+    if (this.pantalla.innerHTML == 0 || this.pantalla.innerHTML == this.ERROR){
+      this.resetValor(objeto);
     }
-    else if (pantallaLista.length == 1 && pantallaLista[0]==0){//sustituir la pantalla a 0 por vacia
-      pantallaLista.shift();
-    }
-  pantallaLista = pantallaLista.concat(arrayResultado);//concatenar pantalla con ans
-  actualizaPantalla();
-}
-
-//conversion del array y escritura en html
-function actualizaPantalla(){
-  pantalla.innerHTML = (pantallaLista.toString()).replace(/,/g, "");
-}
-
-//escritura pantalla de resultados
-function actualizaUltPantalla(){
-  pantallaSol.innerHTML = operacion + " = " + resultado;
-}
-
-//reset del array a valor dado y borrado de ultimo resultado
-function resetValor(valor){
-  pantallaLista = [];
-  pantallaLista.push(valor);
-  actualizaPantalla();
-}
-//mete valor al array
-function meteValor(valor){
-  pantallaLista.push(valor);
-  actualizaPantalla();
-}
-
-//borra el ultimo valor, vacia se pone a 0
-function borraUltValor(){
-  pantallaLista.pop();
-  if (pantallaLista.length == 0) pantallaLista.push(0);
-  actualizaPantalla();
-}
-
-//-----I/O
-//funcion de input de la calculadora
-function escribeBoton (objeto){
-  if (pantalla.innerHTML == 0 || pantalla.innerHTML == ERROR){
-    resetValor(objeto);
-  }
-  else {
-    if (pantallaLista.length == 30) //memoria de 30 caracteres.
-      return;
     else {
-      meteValor(objeto);
+      if (this.pantallaLista.length == this.TAMPANTALLA) //memoria de 30 caracteres.
+        return;
+      else {
+        this.meteValor(objeto);
+      }
     }
-  }
+  },
+
+  //coloca el ultimo resultado en la entrada.
+  escribeAns : function (){
+    if(isNaN(this.resultado) || this.resultado == Infinity || this.operacion == ""){//ans no validas
+      return;
+    }
+    arrayResultado = this.resultado.toString(10).split(''); //variable temporal
+      if((arrayResultado.length + this.pantallaLista.length) > this.TAMPANTALLA){//si la pantalla se llena
+        return;
+      }
+      else if (this.pantallaLista.length == 1 && this.pantallaLista[0]==0){//sustituir la pantalla a 0 por vacia
+        this.pantallaLista.shift();
+      }
+    this.pantallaLista = this.pantallaLista.concat(arrayResultado);//concatenar pantalla con ans
+    this.actualizaPantalla();
+  },
+
+  //conversion del array y escritura en html
+  actualizaPantalla : function (){
+    this.pantalla.innerHTML = (this.pantallaLista.toString()).replace(/,/g, "");
+  },
+
+  //escritura pantalla de resultados
+  actualizaUltPantalla : function (){
+    this.pantallaSol.innerHTML = this.operacion + " = " + this.resultado;
+  },
+
+  //mete valor al array
+  meteValor : function (valor){
+    this.pantallaLista.push(valor);
+    this.actualizaPantalla();
+  },
+
+  //borra el ultimo valor, si vacia se pone a 0
+  borraUltValor : function (){
+    this.pantallaLista.pop();
+    if (this.pantallaLista.length == 0) this.pantallaLista.push(0);
+    this.actualizaPantalla();
+  },
+
+  //funcion de output de la calculadora
+  calcularSol : function (){
+    if (this.operacion != "" && isNaN(this.pantallaLista[0]) && !isNaN(this.resultado) && this.resultado != Infinity) {//si hay una solucion anterior y tenemos simbolo nuevo: añadir
+      this.pantallaLista.unshift(this.resultado);
+      }
+    this.operacion = this.pantallaLista.toString().replace(/,/g, "");
+
+    try {
+      this.resultado = Number((eval(this.operacion)).toFixed(9))
+      }
+    catch (evalError){
+      console.log(evalError);
+      this.parseError();
+      return;
+      }
+
+    console.log(this.resultado);//log en consola
+    this.resetValor(0);
+    this.actualizaUltPantalla();
+    this.operacion = this.resultado;
+  },
 }
 
-//funcion de output de la calculadora
-function calcularSol (){
-  if (operacion != "" && isNaN(pantallaLista[0]) && !isNaN(resultado) && resultado != Infinity) {//si hay una solucion anterior y tenemos simbolo nuevo: añadir
-    pantallaLista.unshift(resultado);
-    }
-  operacion = pantallaLista.toString().replace(/,/g, "");
+//-----acciones de las teclas
 
-  try {
-    resultado = Number((eval(operacion)).toFixed(9))
-    }
-  catch (evalError){
-    console.log(evalError);
-    parseError();
-    return;
-    }
+teclas.botonBorrar.onclick = function () {interfaz.borraUltValor()};
+teclas.botonClear.onclick = function () {interfaz.resetTotal()};
+teclas.botonAns.onclick = function () {interfaz.escribeAns()};
+teclas.botonIgual.onclick = function () {interfaz.calcularSol()};
+teclas.botonSuma.onclick = function () {interfaz.escribeBoton("+")};
+teclas.botonResta.onclick = function () {interfaz.escribeBoton("-")};
+teclas.botonMult.onclick = function () {interfaz.escribeBoton("*")};
+teclas.botonDiv.onclick = function () {interfaz.escribeBoton("/")};
+teclas.botonPunto.onclick = function () {interfaz.escribeBoton(".")};
+teclas.botonParent1.onclick = function () {interfaz.escribeBoton("(")};
+teclas.botonParent2.onclick = function () {interfaz.escribeBoton(")")};
+teclas.botonExp.onclick = function () {interfaz.escribeBoton("e")};
 
-  console.log(resultado);//log en consola
-  resetValor(0);
-  actualizaUltPantalla();
-  operacion = resultado;
+for (var i = 0; i < teclas.botonNum.length; i++) { //botones numericos
+  teclas.botonNum[i].onclick = function (ev){
+    interfaz.escribeBoton(ev.target.value);
+  }
 }

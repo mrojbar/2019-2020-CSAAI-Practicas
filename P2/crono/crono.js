@@ -6,6 +6,9 @@ const gui = {
   display : document.getElementById("display"),
   start : document.getElementById("start"),
   stop : document.getElementById("stop"),
+  muestraDisp : function (mues) {
+    this.display.innerHTML = mues;
+  }
 }
 
 //-- Objeto cronometro
@@ -70,4 +73,5 @@ gui.start.onclick = () => {
 gui.stop.onclick = () => {
   console.log("Stop!");
   crono.stop();
+  gui.muestraDisp(0);
 }
