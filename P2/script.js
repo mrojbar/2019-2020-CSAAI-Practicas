@@ -18,6 +18,7 @@ const teclas = {
 const interfaz = {
 
   pantalla: document.getElementById('pantalla'),
+  pantallaOp : document.getElementById('pantallaOp'),
   pantallaSol : document.getElementById('pantallaSol'),
   ERROR : "ERROR DE SINTAXIS", //mensaje de error
   TAMPANTALLA : 30, //tamaño de pantalla
@@ -86,7 +87,8 @@ const interfaz = {
 
   //escritura pantalla de resultados
   actualizaUltPantalla : function (){
-    this.pantallaSol.innerHTML = this.operacion + " = " + this.resultado;
+    this.pantallaOp.innerHTML = this.operacion + " = ";
+    this.pantallaSol.innerHTML = this.resultado;
   },
 
   //mete valor al array

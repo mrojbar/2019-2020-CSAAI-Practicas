@@ -12,33 +12,36 @@
   <body>
     <h2>Calculadora</h2>
     <div class="Calculadora">
+      <div class="CalcPantallaFin">
+        <p id="pantallaOp">&nbsp</p>
+      </div>
       <div class="CalcPantalla">
-        <p id="pantallaSol">_</p>
+        <p id="pantallaSol" style="color:red;">&nbsp</p>
         <p id="pantalla">0</p>
       </div>
       <div class="CalcBotones">
-        <button type="button" id="botonIgual">=</button>
-        <button type="button" id="botonClear">CLEAR</button>
-        <button type="button" id="botonBorrar">DEL</button>
-        <button type="button" id="botonAns">ANS</button>
-        <button type="button" id="botonExp">EXP</button>
-        <button type="button" id="botonSuma">+</button>
-        <button type="button" id="botonResta">-</button>
-        <button type="button" id="botonMult">*</button>
-        <button type="button" id="botonDiv">/</button>
-        <button type="button" id="botonPunto">.</button>
-        <button type="button" id="botonParent1">(</button>
-        <button type="button" id="botonParent2">)</button>
-        <button type="button" value = "0" class = "botonNum">0</button>
-        <button type="button" value = "1" class = "botonNum">1</button>
-        <button type="button" value = "2" class = "botonNum">2</button>
-        <button type="button" value = "3" class = "botonNum">3</button>
-        <button type="button" value = "4" class = "botonNum">4</button>
-        <button type="button" value = "5" class = "botonNum">5</button>
-        <button type="button" value = "6" class = "botonNum">6</button>
+        <button type="button" class="igual" id="botonIgual">=</button>
+        <button type="button" class="funcion" id="botonClear">CLEAR</button>
+        <button type="button" class="funcion" id="botonBorrar">DEL</button>
+        <button type="button" class="funcion" id="botonAns">ANS</button>
+        <button type="button" class="funcion" id="botonExp">EXP</button>
         <button type="button" value = "7" class = "botonNum">7</button>
         <button type="button" value = "8" class = "botonNum">8</button>
         <button type="button" value = "9" class = "botonNum">9</button>
+        <button type="button" value = "4" class = "botonNum">4</button>
+        <button type="button" value = "5" class = "botonNum">5</button>
+        <button type="button" value = "6" class = "botonNum">6</button>
+        <button type="button" value = "1" class = "botonNum">1</button>
+        <button type="button" value = "2" class = "botonNum">2</button>
+        <button type="button" value = "3" class = "botonNum">3</button>
+        <button type="button" value = "0" class = "botonNum">0</button>
+        <button type="button" class="operador" id="botonPunto">.</button>
+        <button type="button" class="operador" id="botonSuma">+</button>
+        <button type="button" class="operador" id="botonResta">-</button>
+        <button type="button" class="operador" id="botonMult">*</button>
+        <button type="button" class="operador" id="botonDiv">/</button>
+        <button type="button" class="operador" id="botonParent1">(</button>
+        <button type="button" class="operador" id="botonParent2">)</button>
       </div>
     </div>
   </body>
