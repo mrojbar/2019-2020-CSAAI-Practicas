@@ -40,7 +40,8 @@ const interfaz = {
     this.resultado = 0;
 
     this.pantalla.innerHTML = 0;
-    this.pantallaSol.innerHTML = "_"
+    this.pantallaSol.innerHTML = "&nbsp";
+    this.pantallaOp.innerHTML = "&nbsp";
   },
 
   //reset del array a valor dado y borrado de ultimo resultado
