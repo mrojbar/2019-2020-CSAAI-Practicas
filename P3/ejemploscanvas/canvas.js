@@ -59,7 +59,6 @@ ctx.strokeText("Texto trazo", 0, 80);
 //-- Leer la imagen del documento html
 //-- Esta deshabilitada
 var logo = document.getElementById("logo");
-
 logo.onload = ()=> {
   //-- Insertar la imagen en el canvas, una vez que
   //-- ya esté cargada!

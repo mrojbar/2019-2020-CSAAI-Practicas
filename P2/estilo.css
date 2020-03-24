@@ -11,6 +11,7 @@ html {
 
 @font-face{
 font-family:'fuente';
+font-size: 30px;
 src: url('Gilroy-Medium.otf');
 }
 

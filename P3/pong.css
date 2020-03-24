@@ -1,0 +1,21 @@
+@font-face{
+font-family:'fuente';
+src: url('VCR.ttf');
+}
+
+/* Fondo de la página */
+body {
+  font-family: fuente;
+  font-size: 40px;
+  background-color: #478c2b;
+}
+
+/* Estilo para el canvas: Negro */
+#canvas {
+  font-size: 30px;
+  font-family: fuente;
+  background-color: black;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
