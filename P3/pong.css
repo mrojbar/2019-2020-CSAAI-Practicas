@@ -3,10 +3,16 @@ font-family:'fuente';
 src: url('VCR.ttf');
 }
 
+@font-face {
+    font-family: 'KulminoituvaRegular';
+    src: url('http://www.miketaylr.com/f/kulminoituva.ttf');
+}
+
 /* Fondo de la página */
 body {
   font-family: fuente;
   font-size: 40px;
+  color: white;
   background-color: #478c2b;
 }
 
@@ -15,7 +21,5 @@ body {
   font-size: 30px;
   font-family: fuente;
   background-color: black;
-  margin-top: 30px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 10px;
 }
