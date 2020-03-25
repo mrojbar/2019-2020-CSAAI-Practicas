@@ -25,16 +25,32 @@ let raqueta_alto = 40;
 //separacion de la raqueta del fondo
 let raqueta_separacion = 30;
 
-let raqueta1_altura = canvas.height/2 - 10;
-let raqueta2_altura = canvas.height/2 - 10;
+let raqueta1_altura = canvas.height/2 - raqueta_alto/2;
+let raqueta2_altura = canvas.height/2 - raqueta_alto/2;
 
-let vel_saque_x = -1;
-let vel_saque_y = 0;
+let vel_saque_x = 3;
+let vel_saque_y = 2;
+
+//-- Funcion de retrollamada de tecla pulsada
+window.onkeydown = (e) => {
+  if (e.key == 'w') {
+    raqueta1_altura -=30;
+  }
+  if (e.key == 's'){
+    raqueta1_altura += 30;
+  }
+}
+window.onkeyup = (e) => {
+  if (e.key == "w" || e.key == "s"){
+    //-- Quitar velocidad de la raqueta
+    raqueta1_altura == 0;
+  }
+}
 
 reset.onclick = () => {
   //-- Resetear posicion
-  bola_x = 70;
-  bola_y = 230;
+  bola_x = 295;
+  bola_y = 200;
   bola_vx = 0;
   bola_vy = 0;
   direccionx = 1;
@@ -95,24 +111,49 @@ function draw(){
   ctx.fillText("0", 332, 50);
 }
 
+//--- colisiones
+function colision(){
+  //deteccion de colision en raqueta1
+  if(bola_x <= (raqueta_separacion + raqueta_ancho) && bola_x >= (raqueta_separacion - bola_tam)
+  && bola_y >= raqueta1_altura - bola_tam && bola_y <= raqueta1_altura + raqueta_alto){
+    if(bola_y <= raqueta1_altura - bola_tam + bola_tam || bola_y >= raqueta1_altura + raqueta_alto - bola_tam){
+    direccionx = -direccionx;
+    direcciony = -direcciony;
+    return;
+    }
+    else{
+    direccionx = -direccionx;
+    return;
+    }
+  }
+  //deteccion de colision en raqueta2
+  else if(bola_x <= (canvas.width - raqueta_separacion) && bola_x >= (canvas.width - raqueta_separacion - raqueta_ancho -bola_tam)
+  && bola_y >= raqueta2_altura - bola_tam && bola_y <= raqueta2_altura + raqueta_alto){
+    if(bola_y <= raqueta1_altura - bola_tam + bola_tam || bola_y >= raqueta1_altura + raqueta_alto - bola_tam){
+    direccionx = -direccionx;
+    direcciony = -direcciony;
+    return;
+    }
+    else{
+    direccionx = -direccionx;
+    return;
+    }
+  }
+  //--deteccion de colision en paredes.
+  else if(bola_x >= canvas.width -bola_tam || bola_x <= 0){
+    direccionx = -direccionx;
+    return;
+  }
+  else if(bola_y >= canvas.height -bola_tam || bola_y <= 0){
+    direcciony = -direcciony;
+    return;
+  }
+}
+
 //---- Bucle principal de la animación
 function animacion()
 {
-  //--deteccion de colision en paredes.
-  if(bola_x >= canvas.width -bola_tam || bola_x <= 0){
-    direccionx = -direccionx;
-  }
-  if(bola_y >= canvas.height -bola_tam || bola_y <= 0){
-    direcciony = -direcciony;
-  }
-  //deteccion de colision en raquetas lado derecho
-  if(bola_x <= (raqueta_separacion) && bola_y >= raqueta1_altura && bola_y <= (raqueta1_altura + raqueta_alto)){
-    direccionx = -direccionx;
-  }
-  if(bola_x <= (raqueta_separacion + bola_tam) && bola_x >= (raqueta_separacion - bola_tam) && bola_y >= raqueta1_altura - bola_tam && bola_y <= raqueta1_altura + raqueta_alto){
-    direcciony = -direcciony;
-    direccionx = -direccionx;
-  }
+  colision();
   //--nueva posicion de la bola
   bola_x += bola_vx*direccionx;
   bola_y += bola_vy*direcciony;
@@ -129,4 +170,4 @@ function animacion()
 //-- Animación
 setInterval(()=>{
   animacion();
-},16);
+},7);

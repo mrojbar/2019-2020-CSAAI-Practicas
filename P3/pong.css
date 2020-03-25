@@ -15,6 +15,12 @@ body {
   color: white;
   background-color: #478c2b;
 }
+button {
+  font-family: fuente;
+  font-size: 30px;
+  color: white;
+  background-color: #478c2b;
+}
 
 /* Estilo para el canvas: Negro */
 #canvas {
@@ -22,4 +28,12 @@ body {
   font-family: fuente;
   background-color: black;
   margin-top: 10px;
+}
+
+/*
+   Clase color. Cambiar el color
+   del fondo
+*/
+.color {
+  background: lightblue;
 }
