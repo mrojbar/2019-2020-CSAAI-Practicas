@@ -5,9 +5,15 @@ const ctx = canvas.getContext("2d");
 const reset = document.getElementById("reset");
 const saque = document.getElementById("saque");
 
+//flag de colision
+let flag_dentro = false;
+
+// tamaño de la bola
+let bola_tam = 10;
+
 //-- Variables para la bola
-let bola_x = 295;
-let bola_y = 200;
+let bola_x = canvas.width/2 - bola_tam/2;
+let bola_y = canvas.height/2 - bola_tam/2;
 let bola_vx = 0;
 let bola_vy = 0;
 
@@ -15,12 +21,9 @@ let bola_vy = 0;
 let direccionx = 1;
 let direcciony = 1;
 
-// tamaño de la bola
-let bola_tam = 10;
-
 //tamaño de las raquetas
 let raqueta_ancho = 10;
-let raqueta_alto = 40;
+let raqueta_alto = 60;
 
 //separacion de la raqueta del fondo
 let raqueta_separacion = 30;
@@ -28,45 +31,98 @@ let raqueta_separacion = 30;
 let raqueta1_altura = canvas.height/2 - raqueta_alto/2;
 let raqueta2_altura = canvas.height/2 - raqueta_alto/2;
 
-let vel_saque_x = 3;
-let vel_saque_y = 2;
+let vel_saque_x = 1.3;
+let vel_saque_y = 1.3;
 
-//-- Funcion de retrollamada de tecla pulsada
-window.onkeydown = (e) => {
-  if (e.key == 'w') {
-    raqueta1_altura -=30;
-  }
-  if (e.key == 's'){
-    raqueta1_altura += 30;
+let vel_raqueta = 40;
+
+let raqueta1_dir = 0; //dir es 1 para arriba y -1 para abajo.
+let raqueta2_dir = 0;
+
+let puntos1 = 0;
+let puntos2 = 0;
+
+let sentido = 0;
+
+function sentidoInit(){
+  sentido = -1;
+  if (Math.round((Math.random())>0.5)){
+    sentido = 1;
   }
 }
-window.onkeyup = (e) => {
-  if (e.key == "w" || e.key == "s"){
-    //-- Quitar velocidad de la raqueta
-    raqueta1_altura == 0;
+sentidoInit();
+
+//-- Funcion de movimiento de raqueta1
+window.onkeydown = (e) => {
+  raqueta1_dir = 0;
+  raqueta2_dir = 0;
+
+  if (e.key == 'w') {
+    raqueta1_altura -= vel_raqueta;
+    raqueta1_dir = 1;
+  }
+  if (e.key == '8') {
+    raqueta2_altura -= vel_raqueta;
+    raqueta2_dir = 1;
+  }
+  if (e.key == 's'){
+    raqueta1_altura += vel_raqueta;
+    raqueta1_dir = -1;
+  }
+  if (e.key == '5'){
+    raqueta2_altura += vel_raqueta;
+    raqueta2_dir = -1;
+  }
+  if (e.key == ' '){
+    saqueFcn();
   }
 }
 
 reset.onclick = () => {
+  resetFcn();
+}
+
+function saqueFcn(){
+  //-- Añadir velocidad
+  bola_vx = vel_saque_x*sentido;
+  bola_vy = vel_saque_y;
+  console.log("Sacar");
+}
+
+saque.onclick = () => {
+  saqueFcn();
+}
+
+function puntos(){
+  if(bola_x <= 0){
+    puntos2 +=1;
+    sentido = 1;
+  }
+  else if(bola_x > 0){
+    puntos1 +=1;
+    sentido = -1;
+  }
+  if(puntos1 == 5 || puntos2 == 5){
+    puntos1 = 0;
+    puntos2 = 0;
+    return;
+  }
+}
+
+function resetFcn(){
   //-- Resetear posicion
-  bola_x = 295;
-  bola_y = 200;
+  bola_x = canvas.width/2 - bola_tam/2;
+  bola_y = canvas.height/2 - bola_tam/2;
   bola_vx = 0;
   bola_vy = 0;
   direccionx = 1;
   direcciony = 1;
+  raqueta1_altura = canvas.height/2 - raqueta_alto/2;
+  raqueta2_altura = canvas.height/2 - raqueta_alto/2;
   console.log("Reset");
 }
 
-saque.onclick = () => {
-  //-- Incrementar la velocidad
-  bola_vx += vel_saque_x;
-  bola_vy += vel_saque_y;
-  console.log("Sacar");
-}
-
 function draw(){
-
   //----- Dibujar la Bola
   ctx.beginPath();
   ctx.fillStyle='white';
@@ -95,7 +151,7 @@ function draw(){
   //-- Trazos de 10 pixeles, y 10 de separacion
   ctx.setLineDash([15,15]);
   ctx.strokeStyle = 'white';
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 2;
   //-- Punto superior de la linea. Su coordenada x está en la mitad
   //-- del canvas
   ctx.moveTo(canvas.width/2, 10);
@@ -107,8 +163,24 @@ function draw(){
   //------ Dibujar el tanteo
   ctx.font = "bold 40px courier";
   ctx.fillStyle = "white";
-  ctx.fillText("0", 240, 50);
-  ctx.fillText("0", 332, 50);
+  ctx.fillText(puntos1, 240, 50);
+  ctx.fillText(puntos2, 332, 50);
+}
+
+function cambioTrayectoria(raqueta){
+  let vel_mod = Math.sqrt(Math.pow(bola_vx,2)+Math.pow(bola_vy,2));
+  let vel_ang = Math.atan(bola_vy/bola_vx);
+
+  console.log("Velmod: "+vel_mod+", Velang: "+vel_ang);
+
+  if(raqueta == "raq1"){
+    bola_vx = vel_mod * Math.cos(vel_ang + 0.10*raqueta1_dir);
+    bola_vy = vel_mod * Math.sin(vel_ang + 0.10*raqueta1_dir);
+  }
+  else if(raqueta == "raq2"){
+    bola_vx = vel_mod * Math.cos(vel_ang + 0.10*raqueta2_dir);
+    bola_vy = vel_mod * Math.sin(vel_ang + 0.10*raqueta2_dir);
+  }
 }
 
 //--- colisiones
@@ -116,38 +188,52 @@ function colision(){
   //deteccion de colision en raqueta1
   if(bola_x <= (raqueta_separacion + raqueta_ancho) && bola_x >= (raqueta_separacion - bola_tam)
   && bola_y >= raqueta1_altura - bola_tam && bola_y <= raqueta1_altura + raqueta_alto){
-    if(bola_y <= raqueta1_altura - bola_tam + bola_tam || bola_y >= raqueta1_altura + raqueta_alto - bola_tam){
-    direccionx = -direccionx;
-    direcciony = -direcciony;
+    if(bola_y <= raqueta1_altura - bola_tam + bola_tam/2 || bola_y >= raqueta1_altura + raqueta_alto - bola_tam/2){
+      if(!flag_dentro){
+        direccionx = -direccionx;
+        direcciony = -direcciony;
+      }
+    flag_dentro = true;
     return;
     }
     else{
-    direccionx = -direccionx;
+      if(!flag_dentro)
+        direccionx = -direccionx;
+        cambioTrayectoria("raq1");
+    flag_detro = true;
     return;
     }
   }
   //deteccion de colision en raqueta2
   else if(bola_x <= (canvas.width - raqueta_separacion) && bola_x >= (canvas.width - raqueta_separacion - raqueta_ancho -bola_tam)
   && bola_y >= raqueta2_altura - bola_tam && bola_y <= raqueta2_altura + raqueta_alto){
-    if(bola_y <= raqueta1_altura - bola_tam + bola_tam || bola_y >= raqueta1_altura + raqueta_alto - bola_tam){
-    direccionx = -direccionx;
-    direcciony = -direcciony;
+    if(bola_y <= raqueta2_altura - bola_tam + bola_tam/2 || bola_y >= raqueta2_altura + raqueta_alto - bola_tam/2){
+      if(!flag_dentro){
+        direccionx = -direccionx;
+        direcciony = -direcciony;
+      }
+    flag_dentro = true;
     return;
     }
     else{
-    direccionx = -direccionx;
+      if(!flag_dentro)
+        direccionx = -direccionx;
+        cambioTrayectoria("raq2");
+    flag_detro = true;
     return;
     }
   }
   //--deteccion de colision en paredes.
   else if(bola_x >= canvas.width -bola_tam || bola_x <= 0){
-    direccionx = -direccionx;
+    puntos();
+    resetFcn();
     return;
   }
   else if(bola_y >= canvas.height -bola_tam || bola_y <= 0){
     direcciony = -direcciony;
     return;
   }
+  else flag_dentro = false;
 }
 
 //---- Bucle principal de la animación
@@ -158,8 +244,8 @@ function animacion()
   bola_x += bola_vx*direccionx;
   bola_y += bola_vy*direcciony;
   //log en consola para debug
-  console.log(bola_x);
-  console.log(bola_y);
+  //console.log(bola_x);
+  //console.log(bola_y);
   //-- Borrar el canvas
   ctx.clearRect(0,0, canvas.width, canvas.height);
   //-- Dibujar el nuevo frame
@@ -170,4 +256,4 @@ function animacion()
 //-- Animación
 setInterval(()=>{
   animacion();
-},7);
+},5);
