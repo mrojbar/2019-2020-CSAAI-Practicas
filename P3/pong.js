@@ -27,12 +27,12 @@ let raqueta_alto = 60;
 
 //separacion de la raqueta del fondo
 let raqueta_separacion = 30;
-
+ 
 let raqueta1_altura = canvas.height/2 - raqueta_alto/2;
 let raqueta2_altura = canvas.height/2 - raqueta_alto/2;
 
-let vel_saque_x = 1.3;
-let vel_saque_y = 1.3;
+let vel_saque_x = 1.5;
+let vel_saque_y = 1.1;
 
 let vel_raqueta = 40;
 
@@ -174,12 +174,12 @@ function cambioTrayectoria(raqueta){
   console.log("Velmod: "+vel_mod+", Velang: "+vel_ang);
 
   if(raqueta == "raq1"){
-    bola_vx = vel_mod * Math.cos(vel_ang + 0.10*raqueta1_dir);
-    bola_vy = vel_mod * Math.sin(vel_ang + 0.10*raqueta1_dir);
+    bola_vx = vel_mod * Math.cos(vel_ang + 0.15*raqueta1_dir);
+    bola_vy = vel_mod * Math.sin(vel_ang + 0.15*raqueta1_dir);
   }
   else if(raqueta == "raq2"){
-    bola_vx = vel_mod * Math.cos(vel_ang + 0.10*raqueta2_dir);
-    bola_vy = vel_mod * Math.sin(vel_ang + 0.10*raqueta2_dir);
+    bola_vx = vel_mod * Math.cos(vel_ang + 0.15*raqueta2_dir);
+    bola_vy = vel_mod * Math.sin(vel_ang + 0.15*raqueta2_dir);
   }
 }
 
@@ -187,20 +187,21 @@ function cambioTrayectoria(raqueta){
 function colision(){
   //deteccion de colision en raqueta1
   if(bola_x <= (raqueta_separacion + raqueta_ancho) && bola_x >= (raqueta_separacion - bola_tam)
-  && bola_y >= raqueta1_altura - bola_tam && bola_y <= raqueta1_altura + raqueta_alto){
-    if(bola_y <= raqueta1_altura - bola_tam + bola_tam/2 || bola_y >= raqueta1_altura + raqueta_alto - bola_tam/2){
-      if(!flag_dentro){
+  && bola_y >= raqueta1_altura - bola_tam && bola_y <= raqueta1_altura + raqueta_alto){//si la bola contacta con alguno de los lados de la raqueta
+    if(bola_y <= raqueta1_altura - bola_tam + bola_tam/2 || bola_y >= raqueta1_altura + raqueta_alto - bola_tam/2){//si la bola esta dentro de la raqueta por debajo
+      if(!flag_dentro){//cambiar de direccion si no se ha hecho ya.
         direccionx = -direccionx;
         direcciony = -direcciony;
+        flag_dentro = true;
       }
-    flag_dentro = true;
     return;
     }
     else{
-      if(!flag_dentro)
+      if(!flag_dentro){//cambiar la direccion y angulo si no esta ya dentro
         direccionx = -direccionx;
         cambioTrayectoria("raq1");
-    flag_detro = true;
+        flag_detro = true;
+      }
     return;
     }
   }
@@ -211,25 +212,26 @@ function colision(){
       if(!flag_dentro){
         direccionx = -direccionx;
         direcciony = -direcciony;
+        flag_dentro = true;
       }
-    flag_dentro = true;
     return;
     }
     else{
-      if(!flag_dentro)
+      if(!flag_dentro){
         direccionx = -direccionx;
         cambioTrayectoria("raq2");
-    flag_detro = true;
+        flag_detro = true;
+      }
     return;
     }
   }
   //--deteccion de colision en paredes.
-  else if(bola_x >= canvas.width -bola_tam || bola_x <= 0){
+  else if(bola_x >= canvas.width -bola_tam || bola_x <= 0){//paredes frente y fondo
     puntos();
     resetFcn();
     return;
   }
-  else if(bola_y >= canvas.height -bola_tam || bola_y <= 0){
+  else if(bola_y >= canvas.height -bola_tam || bola_y <= 0){//paredes arriba y abajo
     direcciony = -direcciony;
     return;
   }
@@ -250,6 +252,7 @@ function animacion()
   ctx.clearRect(0,0, canvas.width, canvas.height);
   //-- Dibujar el nuevo frame
   draw();
+  console.log("flag dentro: "+flag_dentro);
   console.log("Frame");
 }
 
