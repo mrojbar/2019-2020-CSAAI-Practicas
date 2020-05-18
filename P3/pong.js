@@ -27,7 +27,7 @@ let raqueta_alto = 60;
 
 //separacion de la raqueta del fondo
 let raqueta_separacion = 30;
- 
+
 let raqueta1_altura = canvas.height/2 - raqueta_alto/2;
 let raqueta2_altura = canvas.height/2 - raqueta_alto/2;
 
@@ -259,4 +259,4 @@ function animacion()
 //-- Animación
 setInterval(()=>{
   animacion();
-},5);
+},7);
