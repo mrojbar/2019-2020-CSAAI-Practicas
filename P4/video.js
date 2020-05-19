@@ -2,23 +2,21 @@ console.log("Ejecutando JS...");
 
 //----- Obtener elemento de video y configurarlo
 var video1 = document.getElementById("video1")
-video1.width=480;  //-- Tamaño de la pantalla de video
+video1.width=427;  //-- Tamaño de la pantalla de video
 video1.height=240;
 
 const video2 = document.getElementById("video2")
-video2.width=240;
+video2.width=213;
 video2.height=120;
 
 const video3 = document.getElementById("video3")
-video3.width=240;
+video3.width=213;
 video3.height=120;
 
 const video4 = document.getElementById("video4")
-video4.width=240;
+video4.width=213;
 video4.height=120;
 
-//-- Imagen estática a mostrar cuando el video no
-//-- ha arrancado
 video1.poster="https://github.com/myTeachingURJC/2019-2020-CSAAI/raw/master/L10/test.png";
 
 video2.src="https://gsyc.urjc.es/jmplaza/csaai/realizador-fuente1.mp4"
@@ -34,6 +32,9 @@ const play3 = document.getElementById("play3");
 //-- Función de retrollamada del botón de ver
 play1.onclick = () => {
   console.log("Play video 1");
+  document.getElementById("video2").style.border = "thick solid rgba(255,51,51,1)";
+  document.getElementById("video3").style.border = "thick solid rgba(255,51,51,0)";
+  document.getElementById("video4").style.border = "thick solid rgba(255,51,51,0)";
   video1.src = video2.src;
   video1.currentTime = video2.currentTime;
   video1.play();
@@ -42,12 +43,18 @@ play1.onclick = () => {
 play2.onclick = () => {
   console.log("Play video 1");
   video1.src = video3.src;
+  document.getElementById("video2").style.border = "thick solid rgba(255,51,51,0)";
+  document.getElementById("video3").style.border = "thick solid rgba(255,51,51,1)";
+  document.getElementById("video4").style.border = "thick solid rgba(255,51,51,0)";
   video1.currentTime = video3.currentTime;
   video1.play();
 };
 
 play3.onclick = () => {
   console.log("Play video 1");
+  document.getElementById("video2").style.border = "thick solid rgba(255,51,51,0)";
+  document.getElementById("video3").style.border = "thick solid rgba(255,51,51,0)";
+  document.getElementById("video4").style.border = "thick solid rgba(255,51,51,1)";
   video1.src = video4.src;
   video1.currentTime = video4.currentTime;
   video1.play();
