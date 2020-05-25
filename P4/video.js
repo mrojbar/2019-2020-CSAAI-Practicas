@@ -17,7 +17,7 @@ const video4 = document.getElementById("video4")
 video4.width=213;
 video4.height=120;
 
-video1.poster="https://github.com/myTeachingURJC/2019-2020-CSAAI/raw/master/L10/test.png";
+video1.poster="https://i.ytimg.com/vi/ayf1sYiNLhQ/maxresdefault.jpg";
 
 video2.src="https://gsyc.urjc.es/jmplaza/csaai/realizador-fuente1.mp4"
 video4.src="https://gsyc.urjc.es/jmplaza/csaai/realizador-fuente2.mp4"
