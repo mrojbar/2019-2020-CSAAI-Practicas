@@ -4,12 +4,16 @@ Curso 2019-2020
 
 Enlaces a los Readmes de cada proyecto:
 Practica 1:
-https://mrojbar.github.io/2019-2020-CSAAI-Practicas/P1/Readme.md
+https://github.com/mrojbar/2019-2020-CSAAI-Practicas/blob/master/P1/Readme.md
+
 Practica 2:
-https://mrojbar.github.io/2019-2020-CSAAI-Practicas/P2/Readme.md
+https://github.com/mrojbar/2019-2020-CSAAI-Practicas/blob/master/P2/Readme.md
+
 Practica 3:
-https://mrojbar.github.io/2019-2020-CSAAI-Practicas/P3/Readme.md
+https://github.com/mrojbar/2019-2020-CSAAI-Practicas/blob/master/P3/Readme.md
+
 Practica 4:
-https://mrojbar.github.io/2019-2020-CSAAI-Practicas/P4/Readme.md
+https://github.com/mrojbar/2019-2020-CSAAI-Practicas/blob/master/P4/Readme.md
+
 Practica 5:
-https://mrojbar.github.io/2019-2020-CSAAI-Practicas/P5/Readme.md
+https://github.com/mrojbar/2019-2020-CSAAI-Practicas/blob/master/P5/Readme.md
