@@ -31,12 +31,13 @@ const play1 = document.getElementById("play1");
 const play2 = document.getElementById("play2");
 const play3 = document.getElementById("play3");
 
-//-- Funciones
+//-- Funcion de espera
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+//funciones de enmarcado de los objetos seleccionados en rojo.
 function coloreaMarcoFuente(num){
   if (num == 0){
     document.getElementById("video2").style.border = "thick solid rgba(255,51,51,0)";
@@ -78,11 +79,8 @@ ModoAuto.onclick = () => {
   auto();
 }
 
+//funcion automatica de seleccion de video.
 async function auto(){
-
-  video2.play();
-  video3.play();
-  video4.play();
 
   coloreaMarcoFuente(0);
 
@@ -117,10 +115,8 @@ async function auto(){
   }
 }
 
-function normal(){
-  video2.play();
-  video3.play();
-  video4.play();
+//funcion con botones activables en modo normal
+async function normal(){
 
   play1.onclick = () => {
     if (FlagModoNormal == true){
@@ -152,5 +148,10 @@ function normal(){
     }
   };
 }
+
+//funcionamiento por defecto
+video2.play();
+video3.play();
+video4.play();
 
 normal();

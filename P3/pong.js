@@ -44,6 +44,7 @@ let puntos2 = 0;
 
 let sentido = 0;
 
+//sentido inicial aleatorio de la bola
 function sentidoInit(){
   sentido = -1;
   if (Math.round((Math.random())>0.5)){
@@ -82,6 +83,7 @@ reset.onclick = () => {
   resetFcn();
 }
 
+//funcion de saque
 function saqueFcn(){
   //-- Añadir velocidad
   bola_vx = vel_saque_x*sentido;
@@ -93,6 +95,7 @@ saque.onclick = () => {
   saqueFcn();
 }
 
+// funcion de conteo de puntos
 function puntos(){
   if(bola_x <= 0){
     puntos2 +=1;
@@ -109,6 +112,7 @@ function puntos(){
   }
 }
 
+//funcion de reseteo del juego
 function resetFcn(){
   //-- Resetear posicion
   bola_x = canvas.width/2 - bola_tam/2;
@@ -122,6 +126,7 @@ function resetFcn(){
   console.log("Reset");
 }
 
+// funcion de dibujo en pantalla.
 function draw(){
   //----- Dibujar la Bola
   ctx.beginPath();
@@ -141,19 +146,17 @@ function draw(){
   //-- Raqueta derecha
   ctx.rect(canvas.width - raqueta_separacion - raqueta_ancho, raqueta2_altura, raqueta_ancho, raqueta_alto);
 
-  //-- Pintar!
+  //-- Pintar
   ctx.fill();
 
   //--------- Dibujar la red
   ctx.beginPath();
 
-  //-- Estilo de la linea: discontinua
-  //-- Trazos de 10 pixeles, y 10 de separacion
   ctx.setLineDash([15,15]);
   ctx.strokeStyle = 'white';
   ctx.lineWidth = 2;
+
   //-- Punto superior de la linea. Su coordenada x está en la mitad
-  //-- del canvas
   ctx.moveTo(canvas.width/2, 10);
 
   //-- Dibujar hasta el punto inferior
@@ -167,7 +170,10 @@ function draw(){
   ctx.fillText(puntos2, 332, 50);
 }
 
+//calculo del cambio de direccion.
 function cambioTrayectoria(raqueta){
+
+  //modulo y angulo de la velocidad
   let vel_mod = Math.sqrt(Math.pow(bola_vx,2)+Math.pow(bola_vy,2));
   let vel_ang = Math.atan(bola_vy/bola_vx);
 

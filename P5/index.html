@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Filtros de Imagen</title>
+    <link rel="stylesheet" href="estilo.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <p>Imagen modificada &emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Imagen original</p>
+    <br><br>
+    <canvas id="canvas"></canvas>
+    <img src="imag.jpg" id="imagesrc">&emsp;&emsp;&emsp;
+    <img src="imag.jpg" id="imageorg">
+    <br><br>
+    <p>Umbral de rojo:&emsp; Umbral de verde:&emsp; Umbral de azul:</p>
+    <br>
+    <input type="range" id="deslizadorR" min="0" max="255" value="255"/>
+    <p id="range_valueR" >255</p>&emsp;&emsp;
+    <input type="range" id="deslizadorG" min="0" max="255" value="255"/>
+    <p id="range_valueG" >255</p>&emsp;&emsp;
+    <input type="range" id="deslizadorB" min="0" max="255" value="255"/>
+    <p id="range_valueB" >255</p>&emsp;&emsp;
+    <br><br>
+    <button id="grises">Escala de grises</button>
+    <button id="original">Imagen original</button>
+  </body>
+</html>
